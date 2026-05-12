@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSWS | Tactical Reports</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="reports.css">
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    <div class="radar-scan-bg"></div>
+
+    <header class="top-nav">
+        <div class="brand">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <h1 class="glow-text">SSWS</h1>
+                <p class="subtitle">Analytics & Tactical Reports</p>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="index.html">Dashboard</a>
+            <a href="tracking.html">Live Tracking</a>
+            <a href="soldier.html">Soldier Data</a>
+            <a href="alerts.html">Alerts <span class="badge" id="alert-badge">3</span></a>
+            <a href="reports.html" class="active">Reports</a>
+            <a href="settings.html">Settings</a>
+        </nav>
+
+        <div class="system-info">
+            <div class="time-display" id="live-time">00:00:00</div>
+        </div>
+    </header>
+
+    <div class="reports-layout">
+        <!-- Top Stats Row -->
+        <section class="stats-row">
+            <div class="stat-card">
+                <div class="s-title">ACTIVE DEPLOYMENTS</div>
+                <div class="s-val highlight">142</div>
+            </div>
+            <div class="stat-card">
+                <div class="s-title">INCIDENTS (TODAY)</div>
+                <div class="s-val critical">18</div>
+            </div>
+            <div class="stat-card">
+                <div class="s-title">MISSION SUCCESS RATE</div>
+                <div class="s-val status-good">94.5%</div>
+            </div>
+            <div class="stat-card">
+                <div class="s-title">FLEET UPTIME</div>
+                <div class="s-val">99.9%</div>
+            </div>
+            <div class="stat-card">
+                <div class="s-title">AVG SQUAD SpO2</div>
+                <div class="s-val">96.2%</div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <div class="reports-grid">
+            <!-- Graphs Column -->
+            <div class="graphs-column">
+                <div class="panel">
+                    <h3 class="box-title">BATTALION HEALTH TRENDS (7 DAYS)</h3>
+                    <div class="chart-wrapper"><canvas id="trendChart"></canvas></div>
+                </div>
+                <div class="panel">
+                    <h3 class="box-title">ENVIRONMENTAL HAZARD EXPOSURE</h3>
+                    <div class="chart-wrapper"><canvas id="envChartReport"></canvas></div>
+                </div>
+            </div>
+
+            <!-- Table & Actions Column -->
+            <div class="data-column">
+                <div class="panel">
+                    <h3 class="box-title">AI STRATEGIC SUMMARY</h3>
+                    <div class="ai-terminal">
+                        <div class="terminal-body">
+                            <span class="ai-prompt">> </span><span id="ai-report-text">Analyzing weekly metrics... Overall battalion health is nominal. Noticeable spike in stress indicators for Bravo Squad deployed in Sector 4. Recommending rotation of frontline personnel.</span><span class="cursor">_</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel table-panel">
+                    <div class="box-title-row">
+                        <h3 class="box-title">RECENT MISSIONS LOG</h3>
+                        <div class="table-filters">
+                            <button class="a-filter active">WEEK</button>
+                            <button class="a-filter">MONTH</button>
+                        </div>
+                    </div>
+                    <table class="cyber-table">
+                        <thead>
+                            <tr>
+                                <th>MISSION ID</th>
+                                <th>UNIT</th>
+                                <th>RISK</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>M-401</td><td>ALPHA</td><td><span class="mil-badge warning">HIGH</span></td><td>IN PROGRESS</td></tr>
+                            <tr><td>M-400</td><td>BRAVO</td><td><span class="mil-badge critical">EXTREME</span></td><td>EVACUATING</td></tr>
+                            <tr><td>M-399</td><td>CHARLIE</td><td><span class="mil-badge">LOW</span></td><td class="status-good">COMPLETED</td></tr>
+                            <tr><td>M-398</td><td>DELTA</td><td><span class="mil-badge">MEDIUM</span></td><td class="status-good">COMPLETED</td></tr>
+                            <tr><td>M-397</td><td>ALPHA</td><td><span class="mil-badge warning">HIGH</span></td><td class="status-good">COMPLETED</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="panel action-panel">
+                    <h3 class="box-title">EXPORT PROTOCOLS</h3>
+                    <div class="action-buttons-row">
+                        <button class="btn btn-primary">DOWNLOAD PDF</button>
+                        <button class="btn btn-primary">EXPORT CSV DATA</button>
+                        <button class="btn btn-warning">ENCRYPT & SHARE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="reports.js"></script>
+</body>
+</html>

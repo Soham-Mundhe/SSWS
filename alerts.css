@@ -1,0 +1,171 @@
+/* Alerts Page CSS */
+
+.alerts-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    height: calc(100vh - 80px);
+    overflow: hidden;
+}
+
+.alerts-main {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.alerts-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow-y: auto;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.alert-filters {
+    display: flex;
+    gap: 10px;
+}
+
+.a-filter {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+.a-filter.active {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border-color: #fff;
+}
+.a-filter.critical { color: var(--critical-red); border-color: var(--critical-red); }
+.a-filter.warning { color: var(--warning-yellow); border-color: var(--warning-yellow); }
+
+.alerts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.alert-card {
+    background: rgba(20, 0, 0, 0.6);
+    border: 1px solid var(--critical-red);
+    border-left: 5px solid var(--critical-red);
+    padding: 1.5rem;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(255, 0, 60, 0.2);
+}
+
+.alert-card.warning-type {
+    background: rgba(20, 20, 0, 0.6);
+    border-color: var(--warning-yellow);
+    box-shadow: 0 0 15px rgba(255, 234, 0, 0.1);
+}
+
+.alert-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    animation: flashSweep 2s infinite;
+}
+
+@keyframes flashSweep {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
+}
+
+.alert-card.critical-type {
+    animation: pulseCritical 1s infinite alternate;
+}
+
+@keyframes pulseCritical {
+    from { box-shadow: 0 0 10px rgba(255, 0, 60, 0.2); }
+    to { box-shadow: 0 0 30px rgba(255, 0, 60, 0.6); }
+}
+
+.ac-icon {
+    font-size: 2rem;
+    margin-right: 1.5rem;
+}
+
+.ac-details {
+    flex: 1;
+}
+
+.ac-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.3rem;
+    color: var(--critical-red);
+    margin-bottom: 5px;
+    text-shadow: 0 0 5px var(--critical-red);
+}
+
+.warning-type .ac-title {
+    color: var(--warning-yellow);
+    text-shadow: 0 0 5px var(--warning-yellow);
+}
+
+.ac-info {
+    font-size: 0.9rem;
+    color: var(--text-main);
+    display: flex;
+    gap: 20px;
+}
+
+.ac-info span { color: var(--text-muted); }
+
+.ac-time {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--neon-cyan);
+    font-size: 1.1rem;
+}
+
+.action-buttons-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.glow-pulse {
+    animation: pulseCritical 1s infinite alternate;
+}
+
+.mini-map {
+    height: 250px;
+    border-radius: 4px;
+    border: 1px solid var(--critical-red);
+}
+
+.timeline-panel .terminal-logs {
+    height: 300px;
+}
+
+/* Custom Marker for Alert Map */
+.alert-map-marker {
+    filter: drop-shadow(0 0 10px var(--critical-red));
+    animation: markerPulseAlert 0.5s infinite alternate;
+}
+
+@keyframes markerPulseAlert {
+    0% { transform: scale(1); filter: drop-shadow(0 0 5px var(--critical-red)); }
+    100% { transform: scale(1.3); filter: drop-shadow(0 0 20px var(--critical-red)); }
+}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSWS | System Settings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    <div class="radar-scan-bg"></div>
+
+    <header class="top-nav">
+        <div class="brand">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <h1 class="glow-text">SSWS</h1>
+                <p class="subtitle">System Configuration</p>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="index.html">Dashboard</a>
+            <a href="tracking.html">Live Tracking</a>
+            <a href="soldier.html">Soldier Data</a>
+            <a href="alerts.html">Alerts <span class="badge" id="alert-badge">3</span></a>
+            <a href="reports.html">Reports</a>
+            <a href="settings.html" class="active">Settings</a>
+        </nav>
+
+        <div class="system-info">
+            <div class="time-display" id="live-time">00:00:00</div>
+        </div>
+    </header>
+
+    <div class="settings-layout">
+        <div class="settings-grid">
+            
+            <!-- System Settings -->
+            <div class="panel">
+                <h3 class="box-title">SYSTEM PREFERENCES</h3>
+                
+                <div class="setting-item">
+                    <div class="s-info">
+                        <h4>Dark Cyber Theme</h4>
+                        <p>Enable primary neon UI contrast</p>
+                    </div>
+                    <label class="cyber-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="s-info">
+                        <h4>Auto-Refresh Telemetry</h4>
+                        <p>Fetch soldier data every 5 seconds</p>
+                    </div>
+                    <label class="cyber-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="s-info">
+                        <h4>Global Animation Speed</h4>
+                        <p>Adjust UI particle and radar speeds</p>
+                    </div>
+                    <input type="range" min="1" max="100" value="75" class="cyber-range">
+                </div>
+            </div>
+
+            <!-- Security & Firewall -->
+            <div class="panel">
+                <h3 class="box-title">SECURITY & FIREWALL</h3>
+                
+                <div class="security-status status-good">
+                    <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <div>
+                        <h4>MIL-SPEC ENCRYPTION ACTIVE</h4>
+                        <p>AES-256 Quantum Secure</p>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="s-info">
+                        <h4>AI Intrusion Detection</h4>
+                        <p>Block unauthorized connections</p>
+                    </div>
+                    <label class="cyber-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="s-info">
+                        <h4>Admin Two-Factor Auth</h4>
+                        <p>Require biometric sign-in</p>
+                    </div>
+                    <label class="cyber-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Device & Sensor Config -->
+            <div class="panel">
+                <h3 class="box-title">WEARABLE DEVICE CONFIG</h3>
+                
+                <div class="setting-item">
+                    <div class="s-info">
+                        <h4>GPS Ping Rate</h4>
+                        <p>Frequency of location updates (seconds)</p>
+                    </div>
+                    <input type="range" min="1" max="60" value="5" class="cyber-range">
+                </div>
+
+                <div class="setting-item">
+                    <div class="s-info">
+                        <h4>Sensor Calibration Auto-Sync</h4>
+                        <p>Calibrate biometric sensors daily</p>
+                    </div>
+                    <label class="cyber-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="s-info">
+                        <h4>Battery Saver Mode</h4>
+                        <p>Reduce polling when stationary</p>
+                    </div>
+                    <label class="cyber-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- AI Core Monitor -->
+            <div class="panel">
+                <h3 class="box-title">AI CORE STATUS MONITOR</h3>
+                
+                <div class="monitor-grid">
+                    <div class="m-stat">
+                        <div class="m-label">CPU USAGE</div>
+                        <div class="m-val" id="cpu-val">42%</div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill" id="cpu-bar" style="width: 42%;"></div></div>
+                    </div>
+                    <div class="m-stat">
+                        <div class="m-label">MEMORY ALLOC</div>
+                        <div class="m-val" id="mem-val">8.4 GB</div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill" id="mem-bar" style="width: 65%;"></div></div>
+                    </div>
+                    <div class="m-stat">
+                        <div class="m-label">NETWORK I/O</div>
+                        <div class="m-val" id="net-val">124 Mbps</div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill" id="net-bar" style="width: 30%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="settings-actions">
+            <button class="btn btn-warning">RESET DEFAULT</button>
+            <button class="btn btn-primary">SAVE CONFIGURATION</button>
+        </div>
+    </div>
+
+    <script src="settings.js"></script>
+</body>
+</html>

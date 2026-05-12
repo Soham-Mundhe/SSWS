@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSWS | Live Tactical Tracking</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Shared CSS and Tracking Specific CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="tracking.css">
+</head>
+<body class="tracking-body">
+
+    <!-- Global Emergency Alert -->
+    <div id="danger-overlay" class="hidden">
+        <div class="danger-box">
+            <h1 class="danger-title">WARNING</h1>
+            <p id="danger-message">SOLDIER ENTERED RESTRICTED DANGER ZONE</p>
+        </div>
+    </div>
+
+    <!-- Fullscreen Map Container -->
+    <div id="tracking-map"></div>
+
+    <!-- Radar Overlay Effects -->
+    <div class="radar-overlay"></div>
+    <div class="scanline"></div>
+
+    <!-- Top Navigation (Absolute Positioned over Map) -->
+    <header class="top-nav overlay-nav">
+        <div class="brand">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <h1 class="glow-text">SSWS</h1>
+                <p class="subtitle">Live Tactical Tracking</p>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="index.html">Dashboard</a>
+            <a href="tracking.html" class="active">Live Tracking</a>
+            <a href="soldier.html">Soldier Data</a>
+            <a href="alerts.html">Alerts <span class="badge" id="alert-badge">0</span></a>
+            <a href="reports.html">Reports</a>
+            <a href="settings.html">Settings</a>
+        </nav>
+
+        <div class="system-info">
+            <div class="status-indicator">
+                <span class="pulse"></span>
+                <span>UPLINK ESTABLISHED</span>
+            </div>
+            <div class="time-display" id="live-time">00:00:00</div>
+        </div>
+    </header>
+
+    <!-- Left Panel: Soldier Telemetry -->
+    <aside class="panel side-panel left-panel">
+        <h2 class="panel-title">SOLDIER UPLINK</h2>
+        
+        <div class="telemetry-block">
+            <div class="t-label">SOLDIER ID</div>
+            <div class="t-value highlight">OPR-7X-99</div>
+        </div>
+
+        <div class="telemetry-block">
+            <div class="t-label">CONNECTION</div>
+            <div class="t-value status-good">SECURE ENCRYPTED</div>
+        </div>
+
+        <div class="telemetry-block">
+            <div class="t-label">GPS SIGNAL</div>
+            <div class="t-value">
+                <div class="signal-bars">
+                    <div class="bar full"></div><div class="bar full"></div><div class="bar full"></div><div class="bar half"></div>
+                </div>
+                <span>92% STRONG</span>
+            </div>
+        </div>
+
+        <div class="telemetry-block">
+            <div class="t-label">MOVEMENT STATUS</div>
+            <div class="t-value" id="movement-status">ACTIVE MOVING</div>
+        </div>
+
+        <div class="telemetry-block">
+            <div class="t-label">CURRENT SPEED</div>
+            <div class="t-value"><span id="live-speed">0.0</span> km/h</div>
+        </div>
+
+        <div class="telemetry-block">
+            <div class="t-label">DISTANCE TRAVELED</div>
+            <div class="t-value"><span id="live-dist">0.0</span> km</div>
+        </div>
+
+        <div class="telemetry-block">
+            <div class="t-label">SUIT BATTERY</div>
+            <div class="battery-container">
+                <div class="battery-bar" style="width: 84%;"></div>
+            </div>
+            <div class="t-label" style="text-align: right; margin-top: 5px;">84%</div>
+        </div>
+    </aside>
+
+    <!-- Right Panel: Command Interface & Drone Feed -->
+    <aside class="panel side-panel right-panel">
+        
+        <!-- Simulated Drone Feed -->
+        <h2 class="panel-title">DRONE FEED // THERMAL</h2>
+        <div class="drone-feed-container">
+            <div class="drone-overlay-text top-left">REC</div>
+            <div class="drone-overlay-text top-right">BAT 99%</div>
+            <div class="drone-overlay-text bottom-left">ZOOM x4</div>
+            <div class="drone-overlay-text bottom-right" id="drone-coords">LAT: -- LNG: --</div>
+            <div class="drone-crosshair"></div>
+            <!-- The background will be animated static/noise to look like a feed -->
+            <div class="drone-video-noise"></div>
+            <div class="thermal-filter"></div>
+        </div>
+
+        <!-- AI Analysis Terminal -->
+        <h2 class="panel-title mt-4">AI STATUS ANALYSIS</h2>
+        <div class="ai-terminal">
+            <div class="terminal-header">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                <span>SSWS_AI_CORE.exe</span>
+            </div>
+            <div class="terminal-body">
+                <div id="ai-text-container">
+                    <span class="ai-prompt">> </span><span id="ai-text">Initializing tracking sequence...</span><span class="cursor">_</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emergency Action Buttons -->
+        <h2 class="panel-title mt-4">COMMAND ACTIONS</h2>
+        <div class="action-buttons">
+            <button class="btn btn-primary">TRACK TARGET</button>
+            <button class="btn btn-warning">SEND DRONE</button>
+            <button class="btn btn-critical">EMERGENCY EVAC</button>
+        </div>
+
+    </aside>
+
+    <!-- Floating Weather Widget -->
+    <div class="floating-weather">
+        <div class="w-icon">⛈️</div>
+        <div>
+            <div class="w-temp">28°C</div>
+            <div class="w-cond">Storm Warning</div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="tracking.js"></script>
+</body>
+</html>

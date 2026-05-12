@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSWS | Emergency Alerts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="alerts.css">
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    <div class="radar-scan-bg"></div>
+
+    <header class="top-nav">
+        <div class="brand">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <h1 class="glow-text">SSWS</h1>
+                <p class="subtitle">Emergency Alerts Command</p>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="index.html">Dashboard</a>
+            <a href="tracking.html">Live Tracking</a>
+            <a href="soldier.html">Soldier Data</a>
+            <a href="alerts.html" class="active">Alerts <span class="badge" id="alert-badge">3</span></a>
+            <a href="reports.html">Reports</a>
+            <a href="settings.html">Settings</a>
+        </nav>
+
+        <div class="system-info">
+            <div class="time-display" id="live-time">00:00:00</div>
+        </div>
+    </header>
+
+    <div class="alerts-layout">
+        <!-- Main Alert Center -->
+        <main class="alerts-main">
+            <div class="section-header">
+                <h2 class="panel-title">ACTIVE INCIDENTS</h2>
+                <div class="alert-filters">
+                    <span class="a-filter active">ALL (3)</span>
+                    <span class="a-filter critical">CRITICAL (1)</span>
+                    <span class="a-filter warning">WARNING (2)</span>
+                </div>
+            </div>
+
+            <div class="alerts-grid" id="alerts-container">
+                <!-- Populated by JS -->
+            </div>
+
+            <div class="panel mt-4">
+                <h2 class="panel-title">EMERGENCY CONTROL PROTOCOLS</h2>
+                <div class="action-buttons-row">
+                    <button class="btn btn-warning">SEND BACKUP</button>
+                    <button class="btn btn-primary">CONTACT COMMAND</button>
+                    <button class="btn btn-critical glow-pulse">ACTIVATE EMERGENCY MODE</button>
+                    <button class="btn btn-primary">SEND MEDICAL TEAM</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="alerts-sidebar">
+            <div class="panel map-panel">
+                <h3 class="box-title">DANGER ZONE MAP</h3>
+                <div id="alert-map" class="mini-map"></div>
+            </div>
+
+            <div class="panel mt-4 ai-panel">
+                <h3 class="box-title">AI THREAT ANALYSIS</h3>
+                <div class="ai-terminal">
+                    <div class="terminal-body" style="min-height: 120px;">
+                        <div id="ai-text-container">
+                            <span class="ai-prompt">> </span><span id="ai-threat-text"></span><span class="cursor">_</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel mt-4 timeline-panel">
+                <h3 class="box-title">INCIDENT TIMELINE</h3>
+                <div class="terminal-logs" id="alert-timeline">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="alerts.js"></script>
+</body>
+</html>

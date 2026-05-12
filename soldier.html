@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSWS | Soldier Intelligence Data</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Shared CSS and Specific CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="soldier.css">
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    <div class="radar-scan-bg"></div>
+
+    <header class="top-nav">
+        <div class="brand">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <h1 class="glow-text">SSWS</h1>
+                <p class="subtitle">Soldier Intelligence Data</p>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="index.html">Dashboard</a>
+            <a href="tracking.html">Live Tracking</a>
+            <a href="soldier.html" class="active">Soldier Data</a>
+            <a href="alerts.html">Alerts <span class="badge" id="alert-badge">0</span></a>
+            <a href="reports.html">Reports</a>
+            <a href="settings.html">Settings</a>
+        </nav>
+
+        <div class="system-info">
+            <div class="time-display" id="live-time">00:00:00</div>
+        </div>
+    </header>
+
+    <div class="dossier-layout">
+        
+        <!-- Left Sidebar: Database & Search -->
+        <aside class="panel database-sidebar">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="SEARCH DATABASE...">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+            
+            <div class="filters">
+                <select id="filter-status" class="cyber-select">
+                    <option value="ALL">ALL STATUS</option>
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="CRITICAL">CRITICAL</option>
+                    <option value="STATIONARY">STATIONARY</option>
+                </select>
+                <select id="filter-unit" class="cyber-select">
+                    <option value="ALL">ALL UNITS</option>
+                    <option value="ALPHA">ALPHA SQUAD</option>
+                    <option value="BRAVO">BRAVO SQUAD</option>
+                </select>
+            </div>
+
+            <div class="roster-list" id="roster-list">
+                <!-- Populated by JS -->
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="dossier-main">
+            
+            <!-- Top Section: Profile & Rings -->
+            <div class="profile-section panel">
+                <div class="hologram-avatar">
+                    <!-- Holographic scanning effects applied here -->
+                    <div class="holo-scanline"></div>
+                    <img src="https://ui-avatars.com/api/?name=SOLDIER&background=000&color=00f3ff&size=150" alt="Avatar" id="s-avatar">
+                </div>
+                
+                <div class="profile-details">
+                    <div class="dossier-header">
+                        <h2 id="s-name" class="glow-text">--</h2>
+                        <span id="s-id" class="mil-badge">--</span>
+                    </div>
+                    <div class="dossier-grid">
+                        <div class="d-item"><span class="d-label">RANK</span><span id="s-rank" class="d-val">--</span></div>
+                        <div class="d-item"><span class="d-label">UNIT</span><span id="s-unit" class="d-val">--</span></div>
+                        <div class="d-item"><span class="d-label">BLOOD</span><span id="s-blood" class="d-val">--</span></div>
+                        <div class="d-item"><span class="d-label">AGE</span><span id="s-age" class="d-val">--</span></div>
+                        <div class="d-item"><span class="d-label">HEIGHT</span><span id="s-height" class="d-val">--</span></div>
+                        <div class="d-item"><span class="d-label">WEIGHT</span><span id="s-weight" class="d-val">--</span></div>
+                    </div>
+                </div>
+                
+                <div class="health-rings">
+                    <!-- Circular Progress Rings -->
+                    <div class="ring-container">
+                        <svg class="circular-chart" viewBox="0 0 36 36">
+                            <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="circle" id="ring-spo2" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <text x="18" y="16" class="ring-val" id="val-spo2">--</text>
+                            <text x="18" y="24" class="ring-label">SpO2</text>
+                        </svg>
+                    </div>
+                    <div class="ring-container">
+                        <svg class="circular-chart" viewBox="0 0 36 36">
+                            <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="circle warning-stroke" id="ring-stress" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <text x="18" y="16" class="ring-val" id="val-stress">--</text>
+                            <text x="18" y="24" class="ring-label">STRESS</text>
+                        </svg>
+                    </div>
+                    <div class="ring-container">
+                        <svg class="circular-chart" viewBox="0 0 36 36">
+                            <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="circle critical-stroke" id="ring-fatigue" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <text x="18" y="16" class="ring-val" id="val-fatigue">--</text>
+                            <text x="18" y="24" class="ring-label">FATIGUE</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle Section: Analytics Graphs -->
+            <div class="analytics-section">
+                <div class="panel graph-box">
+                    <h3 class="box-title">HEART RATE HISTORY (BPM)</h3>
+                    <div class="chart-wrapper"><canvas id="hrChart"></canvas></div>
+                </div>
+                <div class="panel graph-box">
+                    <h3 class="box-title">STRESS LEVEL INDEX</h3>
+                    <div class="chart-wrapper"><canvas id="stressChart"></canvas></div>
+                </div>
+            </div>
+
+            <!-- Bottom Section: Logs -->
+            <div class="panel logs-section">
+                <h3 class="box-title">SOLDIER HISTORY & LOGS</h3>
+                <div class="terminal-logs" id="terminal-logs">
+                    <!-- Logs populated by JS -->
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Right Sidebar: Status & Actions -->
+        <aside class="status-sidebar">
+            
+            <div class="panel">
+                <h3 class="box-title">AI HEALTH ANALYSIS</h3>
+                <div class="ai-terminal">
+                    <div class="terminal-body" style="min-height: 100px;">
+                        <div id="ai-text-container">
+                            <span class="ai-prompt">> </span><span id="ai-analysis-text">Select a soldier to begin analysis.</span><span class="cursor">_</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel mt-4">
+                <h3 class="box-title">MISSION STATUS</h3>
+                <div class="status-block">
+                    <div class="s-row"><span>OBJECTIVE</span><span id="s-objective" class="highlight">--</span></div>
+                    <div class="s-row"><span>RISK LEVEL</span><span id="s-risk" class="warning">--</span></div>
+                    <div class="s-row"><span>DURATION</span><span id="s-duration">--</span></div>
+                </div>
+            </div>
+
+            <div class="panel mt-4">
+                <h3 class="box-title">DEVICE STATUS</h3>
+                <div class="status-block">
+                    <div class="s-row"><span>FIRMWARE</span><span>v4.2.1</span></div>
+                    <div class="s-row"><span>GPS LINK</span><span class="status-good">STABLE</span></div>
+                    <div class="s-row"><span>BATTERY</span><span id="s-battery">--%</span></div>
+                </div>
+            </div>
+
+            <div class="panel mt-4 action-buttons">
+                <button class="btn btn-primary">SEND MESSAGE</button>
+                <button class="btn btn-warning">REQUEST BACKUP</button>
+                <button class="btn btn-critical">START EMERGENCY MODE</button>
+            </div>
+
+        </aside>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="soldier.js"></script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSWS | Smart Soldier Wearable System</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="alert-overlay" class="hidden">
+        <div class="alert-box">
+            <h1 class="alert-title">CRITICAL ALERT</h1>
+            <p id="alert-message">System Failure Detected</p>
+        </div>
+    </div>
+
+    <div class="particles" id="particles"></div>
+    <div class="radar-scan-bg"></div>
+
+    <header class="top-nav">
+        <div class="brand">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <h1 class="glow-text">SSWS</h1>
+                <p class="subtitle">Smart Soldier Wearable System</p>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="index.html" class="active">Dashboard</a>
+            <a href="tracking.html">Live Tracking</a>
+            <a href="soldier.html">Soldier Data</a>
+            <a href="alerts.html">Alerts <span class="badge" id="alert-badge">0</span></a>
+            <a href="reports.html">Reports</a>
+            <a href="settings.html">Settings</a>
+        </nav>
+
+        <div class="system-info">
+            <div class="status-indicator">
+                <span class="pulse"></span>
+                <span id="system-status-text">SYSTEM ONLINE</span>
+            </div>
+            <div class="time-display" id="live-time">00:00:00</div>
+            <div class="date-display" id="live-date">YYYY-MM-DD</div>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        <!-- Vitals Grid -->
+        <section class="panel vitals-panel">
+            <h2 class="panel-title">LIVE BIOMETRICS</h2>
+            <div class="cards-grid">
+                <!-- SpO2 -->
+                <div class="data-card" id="card-spo2">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                        <span>SpO2 / Oxygen</span>
+                    </div>
+                    <div class="card-value"><span id="val-spo2">--</span><span class="unit">%</span></div>
+                    <div class="card-status safe">SAFE</div>
+                </div>
+                
+                <!-- Heart Rate -->
+                <div class="data-card" id="card-hr">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        <span>Heart Rate</span>
+                    </div>
+                    <div class="card-value"><span id="val-hr">--</span><span class="unit">BPM</span></div>
+                    <div class="card-status safe">SAFE</div>
+                </div>
+
+                <!-- Blood Pressure -->
+                <div class="data-card" id="card-bp">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        <span>Blood Pressure</span>
+                    </div>
+                    <div class="card-value"><span id="val-bp">--/--</span><span class="unit">mmHg</span></div>
+                    <div class="card-status safe">SAFE</div>
+                </div>
+
+                <!-- Body Temp -->
+                <div class="data-card" id="card-btemp">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+                        <span>Body Temp</span>
+                    </div>
+                    <div class="card-value"><span id="val-btemp">--</span><span class="unit">°C</span></div>
+                    <div class="card-status safe">SAFE</div>
+                </div>
+            </div>
+            
+            <h2 class="panel-title mt-4">ENVIRONMENT</h2>
+            <div class="cards-grid">
+                <!-- Gas Level -->
+                <div class="data-card" id="card-gas">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                        <span>Toxic Gas Level</span>
+                    </div>
+                    <div class="card-value"><span id="val-gas">--</span><span class="unit">PPM</span></div>
+                    <div class="card-status safe">SAFE</div>
+                </div>
+                
+                <!-- Env Temp -->
+                <div class="data-card" id="card-etemp">
+                    <div class="card-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                        <span>Env Temp</span>
+                    </div>
+                    <div class="card-value"><span id="val-etemp">--</span><span class="unit">°C</span></div>
+                    <div class="card-status safe">SAFE</div>
+                </div>
+            </div>
+            
+            <div class="overall-status safe" id="soldier-overall">
+                <h2>SOLDIER STATUS: <span id="val-status">SAFE</span></h2>
+            </div>
+        </section>
+
+        <!-- Graphs Panel -->
+        <section class="panel graphs-panel">
+            <h2 class="panel-title">TELEMETRY ANALYSIS</h2>
+            <div class="chart-container">
+                <canvas id="vitalsChart"></canvas>
+            </div>
+            <div class="chart-container mt-4">
+                <canvas id="envChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Map & Weather Panel -->
+        <section class="panel right-panel">
+            <h2 class="panel-title">TACTICAL MAP</h2>
+            <div class="map-container" id="tactical-map"></div>
+            <div class="location-info">
+                <span id="loc-coords">LAT: -- | LNG: --</span>
+                <span id="loc-name">Locating...</span>
+            </div>
+
+            <h2 class="panel-title mt-4">LOCAL WEATHER</h2>
+            <div class="weather-panel">
+                <div class="weather-icon" id="w-icon">☁️</div>
+                <div class="weather-details">
+                    <div class="w-temp" id="w-temp">--°C</div>
+                    <div class="w-cond" id="w-cond">Loading...</div>
+                </div>
+                <div class="weather-extra">
+                    <div>HUM: <span id="w-hum">--%</span></div>
+                    <div>WIND: <span id="w-wind">-- m/s</span></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <!-- Firebase V8 Compat for local execution -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
